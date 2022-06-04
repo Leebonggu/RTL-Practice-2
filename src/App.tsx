@@ -1,4 +1,3 @@
-import React from 'react';
 import SummaryPage from './pages/SummaryPage/SummaryPage';
 
 function App() {
