@@ -12,18 +12,23 @@ type Total = {
   total: number;
 }
 
-type ContextDefaultValue = {
+export type ContextDefaultValue = {
   products: Map<string, number>,
   options: Map<string, number>,
   totals: Total,
 }
 
 
-export const OrderContext = createContext<[ContextDefaultValue, (itemName: string, newItemCount: number, orderType: 'products' | 'options') => void] | null>(null);
+export const OrderContext = createContext<[
+  ContextDefaultValue,
+  (itemName: string, newItemCount: number, orderType: 'products' | 'options') => void,
+  () => void,
+  ] | null
+  >(null)
 
 const pricePerItem = {
   products: 1000,
-  options: 5000,
+  options: 500,
 }
 
 function calculateSubtotal(orderType: OrderType , orderCounts: OrderCount) {
@@ -48,6 +53,13 @@ export function OrderContextProvider(props: any) {
     total: 0,
   });
 
+  const resetOrderData = () => {
+    setOrderCounts({
+      products: new Map(),
+      options: new Map(),
+    })
+  }
+
   useEffect(() => {
     const productTotal = calculateSubtotal('products', orderCounts);
     const optionsTotal = calculateSubtotal('options', orderCounts);
@@ -67,7 +79,7 @@ export function OrderContextProvider(props: any) {
 
       setOrderCounts(newOrderCounts)
     }
-    return [{ ...orderCounts, totals }, updateItemCount]
+    return [{ ...orderCounts, totals }, updateItemCount, resetOrderData]
   }, [orderCounts, totals])
 
   return <OrderContext.Provider value={value} {...props} />

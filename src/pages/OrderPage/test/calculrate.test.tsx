@@ -43,8 +43,12 @@ test('update options total when option change', async () => {
 });
 
 describe('total price of goods and options', () => {
+  const setStep = jest.fn();
+  const orderPageStep = 0
+
   test('총가격은 0원에서 시작합니다', async () => {
-    render(<OrderPage />);
+
+    render(<OrderPage pageStep={orderPageStep} setStep={setStep}/>);
 
     const total = screen.getByText('Total Price', { exact: false });
     expect(total).toHaveTextContent('0');
@@ -59,7 +63,8 @@ describe('total price of goods and options', () => {
     expect(total).toHaveTextContent('1000');
   })
   test('옵션을 추가하면 총 가격이 바뀝니다', async () => {
-    render(<OrderPage />);
+    const setStep = jest.fn();
+    render(<OrderPage pageStep={0} setStep={setStep}/>);
 
     const total = screen.getByText('Total Price', { exact: false });
     expect(total).toHaveTextContent('0');
@@ -73,7 +78,7 @@ describe('total price of goods and options', () => {
   })
 
   test('옵션을 취소하면 총 가격이 줄어듭니다', async () => {
-    render(<OrderPage />);
+    render(<OrderPage pageStep={orderPageStep} setStep={setStep}/>);
 
     const total = screen.getByText('Total Price', { exact: false });
     expect(total).toHaveTextContent('0');
