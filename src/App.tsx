@@ -1,9 +1,12 @@
-import SummaryPage from './pages/SummaryPage/SummaryPage';
+import { OrderContextProvider } from './contexts/OrderContext';
+import OrderPage from './pages/OrderPage/OrderPage';
 
 function App() {
   return (
-    <div className="App">
-      <SummaryPage />
+    <div style={{ padding: '4rem' }}>
+      <OrderContextProvider>
+        <OrderPage />
+      </OrderContextProvider>
     </div>
   );
 }

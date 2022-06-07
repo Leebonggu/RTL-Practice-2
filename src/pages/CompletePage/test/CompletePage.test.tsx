@@ -1,4 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../../test-util';
 import CompletePage from '../CompletePage';
 
-export {}
+test('페이지 렌더가 잘 되어야 합니다', () => {
+  render(<CompletePage />);
+
+  const page = screen.getByText('CompletePage');
+  expect(page).toHaveTextContent('CompletePage')
+});
+
